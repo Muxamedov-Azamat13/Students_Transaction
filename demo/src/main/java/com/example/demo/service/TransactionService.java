@@ -44,6 +44,7 @@ public class TransactionService {
         return transactionRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public Transaction update(Long id, Transaction updated) {
         Transaction transaction = getById(id);
         transaction.setAmount(updated.getAmount());
@@ -52,6 +53,7 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
+    @Transactional
     public void delete(Long id) {
         transactionRepository.deleteById(id);
     }
