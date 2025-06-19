@@ -6,6 +6,7 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.repository.TransactionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,12 +15,16 @@ import java.util.List;
 @Service
 public class TransactionService {
 
-    @Autowired
     private TransactionalRepository transactionRepository;
 
-    @Autowired
     private StudentRepository studentRepository;
 
+    public TransactionService(TransactionalRepository transactionRepository, StudentRepository studentRepository) {
+        this.transactionRepository = transactionRepository;
+        this.studentRepository = studentRepository;
+    }
+
+    @Transactional
     public Transaction addTransaction(Long studentId, Transaction transaction) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("Student not found"));
